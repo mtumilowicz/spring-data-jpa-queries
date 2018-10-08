@@ -2,6 +2,7 @@ package com.example.springdatajpaqueries.repository;
 
 import com.example.springdatajpaqueries.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.scheduling.annotation.Async;
@@ -31,12 +32,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query("select e from #{#entityName} e where e.name = :name1 or e.name = :name2")
     List<Employee> findByNames(@Param("name1") String name1,
                                @Param("name2") String name2);
-//
-//    @Modifying
+
 ////    Doing so triggers the query annotated to the method as an updating query instead of a selecting one. As the EntityManager might contain outdated entities after the execution of the modifying query, we do not automatically clear it (see the JavaDoc of EntityManager.clear() for details), since this effectively drops all non-flushed changes still pending in the EntityManager. If you wish the EntityManager to be cleared automatically, you can set the @Modifying annotation’s clearAutomatically attribute to true.
-//    @Query("update Employee e set e.name = :name where e.address.city = :city")
-//    int updateNameForEmployeesFromCity(@Param("name") String name,
-//                                       @Param("city") String city);
+    @Query("update Employee e set e.name = :name where e.address.city = :city")
+    @Modifying
+    int updateNameForEmployeesFromCity(@Param("name") String name,
+                                       @Param("city") String city);
 //
 //    void deleteByAddress_Street(String street);
 //

@@ -66,4 +66,13 @@ public class SpringDataJpaQueriesTest {
         
         assertThat(byNames, is(empty()));
     }
+    
+    @Test
+    @Transactional
+    public void update() {
+        int i = repository.updateNameForEmployeesFromCity("Tumilowicz updated", "Warsaw");
+        
+        assertThat(i, is(1));
+        assertThat(repository.findById(1).get().getName(), is("Tumilowicz updated"));
+    }
 }

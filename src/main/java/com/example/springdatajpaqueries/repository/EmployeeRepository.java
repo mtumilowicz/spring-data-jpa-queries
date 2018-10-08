@@ -23,10 +23,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     CompletableFuture<Employee> findByName(String name);
 
     List<Employee> employeesByIssueDescription(String description);
-//
-//    @Query(value = "SELECT * FROM EMPLOYEE WHERE CITY = ?1", nativeQuery = true)
-//    List<Employee> findByCity(String emailAddress);
-//
+
+    @Query(value = "SELECT * FROM EMPLOYEE WHERE CITY = ?1", nativeQuery = true)
+    List<Employee> findByCity(String city);
+
 //    @Query("select e from #{#entityName} e where e.name = :name1 or e.name = :name2") // SpEL 
 //    List<Employee> findByNames(@Param("name1") String name1,
 //                               @Param("name2") String name2);

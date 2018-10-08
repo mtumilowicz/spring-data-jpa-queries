@@ -49,4 +49,13 @@ public class SpringDataJpaQueriesTest {
         assertThat(employees, hasSize(1));
         assertThat(employees.get(0).getName(), is("Tumilowicz"));
     }
+    
+    @Test
+    public void nativeQuery() {
+        List<Employee> employeesFromKrakow = repository.findByCity("Krakow");
+
+        assertThat(employeesFromKrakow, hasSize(2));
+        assertThat(employeesFromKrakow.get(0).getName(), is("Mrozek"));
+        assertThat(employeesFromKrakow.get(1).getName(), is("Lem"));
+    }
 }

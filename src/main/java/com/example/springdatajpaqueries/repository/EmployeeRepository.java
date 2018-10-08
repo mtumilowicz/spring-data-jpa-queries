@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     @Query("select e from Employee e")
-    Stream<Employee> findAllStream(); // remember to close the stream
+    Stream<Employee> findAllStream();
 
     @Async
     CompletableFuture<Employee> findByName(String name);

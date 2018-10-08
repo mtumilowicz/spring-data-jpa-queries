@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -26,9 +27,16 @@ public class SpringDataJpaQueriesTest {
     
     @Test
     @Transactional
-    public void findAllStream() {
+    public void stream() {
         try (Stream<Employee> all = repository.findAllStream()) {
             assertThat(all.count(), is(4L));
         }
+    }
+    
+    @Test
+    public void async() {
+        CompletableFuture<Employee> employeeFuture = repository.findByName("Hemingway");
+        
+        assertThat(employeeFuture.join().getName(), is("Hemingway"));
     }
 }

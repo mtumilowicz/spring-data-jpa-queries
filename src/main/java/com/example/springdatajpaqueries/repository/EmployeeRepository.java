@@ -30,8 +30,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query(value = "SELECT * FROM EMPLOYEE WHERE CITY = ?1", nativeQuery = true)
     List<Employee> findByCity(String emailAddress);
 
-    @Query("select e from #{#entityName} e where e.name = :name1 or e.name = :name2")
-        // SpEL 
+    @Query("select e from #{#entityName} e where e.name = :name1 or e.name = :name2") // SpEL 
     List<Employee> findByNames(@Param("name1") String name1,
                                @Param("name2") String name2);
 
@@ -41,7 +40,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     int updateNameForEmployeesFromCity(@Param("name") String name,
                                        @Param("city") String city);
 
-    void deleteByStreet(String street);
+    void deleteByAddress_Street(String street);
 
     @Modifying
     @Query("delete from Employee e where e.address.street = ?1")

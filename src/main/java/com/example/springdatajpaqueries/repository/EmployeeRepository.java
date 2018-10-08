@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -20,8 +21,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     @Async
     CompletableFuture<Employee> findByName(String name);
-//
-//    List<Employee> employeesByIssueDescription(String description); // named query entity
+
+    List<Employee> employeesByIssueDescription(String description);
 //
 //    @Query(value = "SELECT * FROM EMPLOYEE WHERE CITY = ?1", nativeQuery = true)
 //    List<Employee> findByCity(String emailAddress);

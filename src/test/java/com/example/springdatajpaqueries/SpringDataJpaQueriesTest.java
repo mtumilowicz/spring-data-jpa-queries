@@ -9,10 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -38,5 +40,13 @@ public class SpringDataJpaQueriesTest {
         CompletableFuture<Employee> employeeFuture = repository.findByName("Hemingway");
         
         assertThat(employeeFuture.join().getName(), is("Hemingway"));
+    }
+    
+    @Test
+    public void namedQuery() {
+        List<Employee> employees = repository.employeesByIssueDescription("stay sharp!");
+        
+        assertThat(employees, hasSize(1));
+        assertThat(employees.get(0).getName(), is("Tumilowicz"));
     }
 }

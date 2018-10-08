@@ -16,8 +16,8 @@ import java.util.Collection;
 @Getter
 @Builder
 @ToString
-//@NamedQuery(name = "Employee.employeesByIssueDescription",
-//        query = "select e from Employee e where e.issues.description = ?1")
+@NamedQuery(name = "Employee.employeesByIssueDescription",
+        query = "select e from Employee e join fetch e.issues i where i.description = ?1")
 public class Employee {
     @Id
     Integer id;

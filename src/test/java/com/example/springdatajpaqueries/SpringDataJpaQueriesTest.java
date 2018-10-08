@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
@@ -57,5 +58,12 @@ public class SpringDataJpaQueriesTest {
         assertThat(employeesFromKrakow, hasSize(2));
         assertThat(employeesFromKrakow.get(0).getName(), is("Mrozek"));
         assertThat(employeesFromKrakow.get(1).getName(), is("Lem"));
+    }
+    
+    @Test
+    public void SpEL_namedParams() {
+        List<Employee> byNames = repository.findByNames("a", "b");
+        
+        assertThat(byNames, is(empty()));
     }
 }

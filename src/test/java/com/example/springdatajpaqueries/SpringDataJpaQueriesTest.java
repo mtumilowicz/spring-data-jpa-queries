@@ -75,4 +75,12 @@ public class SpringDataJpaQueriesTest {
         assertThat(i, is(1));
         assertThat(repository.findById(1).get().getName(), is("Tumilowicz updated"));
     }
+    
+    @Test
+    @Transactional
+    public void delete() {
+        repository.deleteByAddress_Street("Plac Zbawiciela");
+        
+        assertThat(repository.findAll(), hasSize(3));
+    }
 }

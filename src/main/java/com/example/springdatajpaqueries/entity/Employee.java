@@ -30,4 +30,9 @@ public class Employee {
     @OneToMany
     @JoinColumn
     Collection<Issue> issues;
+    
+    @PreRemove
+    private void preRemove() {
+        System.out.println("preRemove!");
+    }
 }

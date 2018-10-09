@@ -38,13 +38,13 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Modifying
     int updateNameForEmployeesFromCity(@Param("name") String name,
                                        @Param("city") String city);
-//
-//    void deleteByAddress_Street(String street);
-//
+
+    void deleteByAddress_Street(String street);
+
 //    @Modifying
 //    @Query("delete from Employee e where e.address.street = ?1")
 //    void deleteInBulkByStreet(String street);
-//
+
 //    /*
 //     Although the deleteByRoleId(…) method looks like it basically produces the same result as the deleteInBulkByRoleId(…), there is an important difference between the two method declarations in terms of the way they get executed. As the name suggests, the latter method issues a single JPQL query (the one defined in the annotation) against the database. This means even currently loaded instances of User do not see lifecycle callbacks invoked.
 //

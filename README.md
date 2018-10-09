@@ -80,7 +80,7 @@ class-name of the domain type is used.
     automatically, you can set the `@Modifying` annotation’s 
     `clearAutomatically` attribute to true.
     
-# deleting queries
+## deleting queries
 * `@Modifying`
     ```
     @Modifying
@@ -93,7 +93,7 @@ class-name of the domain type is used.
     void deleteByAddress_Street(String street);
     ```
     
-**Comparison**:
+### Comparison
 1. Although the `deleteByRoleId(…)` method looks like it basically 
 produces the same result as the `deleteInBulkByRoleId(…)`, there is 
 an important difference between the two method declarations in 
@@ -112,7 +112,7 @@ query and then calling `CrudRepository.delete(Iterable<User> users)`
 on the result and keeping behavior in sync with the implementations 
 of other `delete(…)` methods in `CrudRepository`.
 
-**Summary**:
+### Summary
 1. `deleteByAddress_Street` test
     ```
     @Test

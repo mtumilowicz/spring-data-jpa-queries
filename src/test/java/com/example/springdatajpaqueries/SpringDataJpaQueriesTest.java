@@ -83,4 +83,14 @@ public class SpringDataJpaQueriesTest {
         
         assertThat(repository.findAll(), hasSize(3));
     }
+
+    @Test
+    @Transactional
+    public void deleteBulk() {
+        repository.deleteInBulkByStreet("907 Whitehead St");
+        
+        System.out.println(repository.findAll());
+        
+        assertThat(repository.findAll(), hasSize(3));
+    }
 }

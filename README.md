@@ -5,7 +5,8 @@ using Spring Data and its repositories.
 _Reference_: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
 
 # preface
-Please refer Spring Data Basics: https://github.com/mtumilowicz/spring-data-jpa-basics
+Please refer my recent project - Spring Data Basics: 
+https://github.com/mtumilowicz/spring-data-jpa-basics
 
 # overview
 * `@Query` method + returning `Stream`
@@ -79,69 +80,69 @@ class-name of the domain type is used.
     automatically, you can set the `@Modifying` annotation’s 
     `clearAutomatically` attribute to true.
     
-* deleting queries
-    * `@Modifying`
-        ```
-        @Modifying
-        @Query("delete from Employee e where e.address.street = ?1")
-        void deleteInBulkByStreet(String street);    
-        ```
+# deleting queries
+* `@Modifying`
+    ```
+    @Modifying
+    @Query("delete from Employee e where e.address.street = ?1")
+    void deleteInBulkByStreet(String street);    
+    ```
+    
+* query method
+    ```
+    void deleteByAddress_Street(String street);
+    ```
+    
+**Comparison**:
+1. Although the `deleteByRoleId(…)` method looks like it basically 
+produces the same result as the `deleteInBulkByRoleId(…)`, there is 
+an important difference between the two method declarations in 
+terms of the way they get executed. As the name suggests, the 
+latter method issues a single JPQL query (the one defined in the 
+annotation) against the database. This means even currently loaded 
+instances of User do not see lifecycle callbacks invoked.
+
+1. To make sure lifecycle queries are actually invoked, an invocation 
+of `deleteByRoleId(…)` executes a query and then deletes the returned 
+instances one by one, so that the persistence provider can actually 
+invoke `@PreRemove` callbacks on those entities.
+
+1. In fact, a derived delete query is a shortcut for executing the 
+query and then calling `CrudRepository.delete(Iterable<User> users)` 
+on the result and keeping behavior in sync with the implementations 
+of other `delete(…)` methods in `CrudRepository`.
+
+**Summary**:
+1. deleteByAddress_Street test
+    ```
+    @Test
+    @Transactional
+    public void delete() {
+        repository.deleteByAddress_Street("Plac Zbawiciela");
         
-    * query method
-        ```
-        void deleteByAddress_Street(String street);
-        ```
+        assertThat(repository.findAll(), hasSize(3));
+    }    
+    ```
+    will produce:
+    ```
+    Hibernate: select employee0_.id as id1_0_, employee0_.city as city2_0_, employee0_.street as street3_0_, employee0_.name as name4_0_ from employee employee0_ where employee0_.street=?
+    preRemove!
+    Hibernate: update issue set issues_id=null where issues_id=?
+    Hibernate: delete from employee where id=?
+    Hibernate: select employee0_.id as id1_0_, employee0_.city as city2_0_, employee0_.street as street3_0_, employee0_.name as name4_0_ from employee employee0_
+    ```
+1. deleteInBulkByStreet test
+    ```
+    @Test
+    @Transactional
+    public void deleteBulk() {
+        repository.deleteInBulkByStreet("907 Whitehead St");
         
-    **Comparison**:
-    1. Although the `deleteByRoleId(…)` method looks like it basically 
-    produces the same result as the `deleteInBulkByRoleId(…)`, there is 
-    an important difference between the two method declarations in 
-    terms of the way they get executed. As the name suggests, the 
-    latter method issues a single JPQL query (the one defined in the 
-    annotation) against the database. This means even currently loaded 
-    instances of User do not see lifecycle callbacks invoked.
-    
-    1. To make sure lifecycle queries are actually invoked, an invocation 
-    of `deleteByRoleId(…)` executes a query and then deletes the returned 
-    instances one by one, so that the persistence provider can actually 
-    invoke `@PreRemove` callbacks on those entities.
-    
-    1. In fact, a derived delete query is a shortcut for executing the 
-    query and then calling `CrudRepository.delete(Iterable<User> users)` 
-    on the result and keeping behavior in sync with the implementations 
-    of other `delete(…)` methods in `CrudRepository`.
-    
-    **Summary**:
-    1. deleteByAddress_Street test
-        ```
-        @Test
-        @Transactional
-        public void delete() {
-            repository.deleteByAddress_Street("Plac Zbawiciela");
-            
-            assertThat(repository.findAll(), hasSize(3));
-        }    
-        ```
-        will produce:
-        ```
-        Hibernate: select employee0_.id as id1_0_, employee0_.city as city2_0_, employee0_.street as street3_0_, employee0_.name as name4_0_ from employee employee0_ where employee0_.street=?
-        preRemove!
-        Hibernate: update issue set issues_id=null where issues_id=?
-        Hibernate: delete from employee where id=?
-        Hibernate: select employee0_.id as id1_0_, employee0_.city as city2_0_, employee0_.street as street3_0_, employee0_.name as name4_0_ from employee employee0_
-        ```
-    1. deleteInBulkByStreet test
-        ```
-        @Test
-        @Transactional
-        public void deleteBulk() {
-            repository.deleteInBulkByStreet("907 Whitehead St");
-            
-            assertThat(repository.findAll(), hasSize(3));
-        }    
-        ```
-        will produce:
-        ```
-        Hibernate: delete from employee where street=?
-        Hibernate: select employee0_.id as id1_0_, employee0_.city as city2_0_, employee0_.street as street3_0_, employee0_.name as name4_0_ from employee employee0_
-        ```
+        assertThat(repository.findAll(), hasSize(3));
+    }    
+    ```
+    will produce:
+    ```
+    Hibernate: delete from employee where street=?
+    Hibernate: select employee0_.id as id1_0_, employee0_.city as city2_0_, employee0_.street as street3_0_, employee0_.name as name4_0_ from employee employee0_
+    ```

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/mtumilowicz/spring-data-jpa-queries.svg?branch=master)](https://travis-ci.com/mtumilowicz/spring-data-jpa-queries)
+
 # spring-data-jpa-queries
 The main goal of this project is to show basics of constructing queries
 using Spring Data and its repositories.

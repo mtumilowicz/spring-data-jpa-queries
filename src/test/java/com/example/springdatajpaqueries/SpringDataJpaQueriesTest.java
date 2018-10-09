@@ -32,7 +32,7 @@ public class SpringDataJpaQueriesTest {
     @Test
     @Transactional
     public void stream() {
-        try (Stream<Employee> all = repository.findAllStream()) {
+        try (final Stream<Employee> all = repository.findAllStream()) {
             assertThat(all.count(), is(4L));
         }
     }

@@ -113,7 +113,7 @@ on the result and keeping behavior in sync with the implementations
 of other `delete(…)` methods in `CrudRepository`.
 
 **Summary**:
-1. deleteByAddress_Street test
+1. `deleteByAddress_Street` test
     ```
     @Test
     @Transactional
@@ -131,7 +131,7 @@ of other `delete(…)` methods in `CrudRepository`.
     Hibernate: delete from employee where id=?
     Hibernate: select employee0_.id as id1_0_, employee0_.city as city2_0_, employee0_.street as street3_0_, employee0_.name as name4_0_ from employee employee0_
     ```
-1. deleteInBulkByStreet test
+1. `deleteInBulkByStreet` test
     ```
     @Test
     @Transactional

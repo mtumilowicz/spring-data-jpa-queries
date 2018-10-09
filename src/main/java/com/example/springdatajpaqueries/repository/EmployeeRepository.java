@@ -1,6 +1,7 @@
 package com.example.springdatajpaqueries.repository;
 
 import com.example.springdatajpaqueries.entity.Employee;
+import com.example.springdatajpaqueries.entity.EmployeeNameCityProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -53,5 +54,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 //     In fact, a derived delete query is a shortcut for executing the query and then calling CrudRepository.delete(Iterable<User> users) on the result and keeping behavior in sync with the implementations of other delete(…) methods in CrudRepository.
 //     */
 //    
-//    List<EmployeeNameCityProjection> findAllNames();
+    @Query("select e from Employee e")
+    List<EmployeeNameCityProjection> findAll_NameCityProjection();
 }

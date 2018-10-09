@@ -1,6 +1,7 @@
 package com.example.springdatajpaqueries;
 
 import com.example.springdatajpaqueries.entity.Employee;
+import com.example.springdatajpaqueries.entity.EmployeeNameCityProjection;
 import com.example.springdatajpaqueries.repository.EmployeeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,5 +91,12 @@ public class SpringDataJpaQueriesTest {
         repository.deleteInBulkByStreet("907 Whitehead St");
         
         assertThat(repository.findAll(), hasSize(3));
+    }
+    
+    @Test
+    public void projection() {
+        List<EmployeeNameCityProjection> all = repository.findAll_NameCityProjection();
+        
+        assertThat(all, hasSize(4));
     }
 }
